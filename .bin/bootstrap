@@ -10,6 +10,7 @@ BACKUP_DIR="$HOME/.bootstrap-backup"
 HEADLESS_EXCLUDES=(
     ".config/i3"
     ".config/sway"
+    ".config/niri"
     ".config/gtk-3.0"
     ".fonts"
     ".icons"

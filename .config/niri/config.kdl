@@ -1,0 +1,162 @@
+// niri 26.04. Only the agreed bindings from the Sway migration.
+// https://niri-wm.github.io/niri/Configuration:-Introduction
+input {
+    keyboard {
+        xkb { layout "us"; }
+        repeat-delay 600
+        repeat-rate 25
+    }
+    touchpad {
+        natural-scroll
+    }
+}
+
+output "eDP-1" {
+    mode "2880x1920@120"
+    scale 2
+}
+
+layout {
+    gaps 8
+    center-focused-column "never"
+    default-column-width { proportion 0.5; }
+    focus-ring {
+        width 2
+        active-color "#363840"
+        inactive-color "#14161c"
+        urgent-color "#5b9bf8"
+    }
+    border { off; }
+}
+
+prefer-no-csd
+hotkey-overlay { skip-at-startup; }
+
+// Short movement feedback with no overshoot. Gestures remain continuous.
+animations {
+    workspace-switch { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
+    horizontal-view-movement { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
+    window-movement { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
+    window-resize { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
+    overview-open-close { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
+    window-open { duration-ms 100; curve "ease-out-quad"; }
+    window-close { duration-ms 100; curve "ease-out-quad"; }
+}
+
+window-rule {
+    match app-id=r#"^firefox$"#
+    default-column-width { proportion 1.0; }
+}
+window-rule {
+    match app-id=r#"^firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+window-rule {
+    match app-id="^com\\.waybar\\.popup$"
+    open-floating true
+    default-column-width { fixed 800; }
+    default-window-height { fixed 500; }
+}
+
+// niri-session manages the environment and on-demand portals/Xwayland.
+spawn-sh-at-startup "exec waybar -c \"$HOME/.config/niri/waybar.jsonc\" -s \"$HOME/.config/niri/waybar.css\""
+spawn-at-startup "systemctl" "--user" "start" "mako.service"
+spawn-sh-at-startup "exec \"$HOME/.config/niri/startup.sh\""
+spawn-sh-at-startup "exec python3 \"$HOME/.config/niri/workspaces.py\" watch"
+
+// Keep the existing screenshot destination. Print chords await the next round.
+screenshot-path "~/Pictures/%m-%d-%y_%H-%M-%S.png"
+
+binds {
+    // Workspace indices are their current positions on the focused monitor.
+    Super+Q { focus-workspace 1; }
+    Super+W { focus-workspace 2; }
+    Super+E { focus-workspace 3; }
+    Super+A { focus-workspace 4; }
+    Super+S { focus-workspace 5; }
+    Super+D { focus-workspace 6; }
+    Super+Z { focus-workspace 7; }
+    Super+X { focus-workspace 8; }
+    Super+C { focus-workspace 9; }
+    // Indices beyond the workspace count resolve to the bottom empty workspace.
+    Super+V { focus-workspace 255; }
+    Super+Tab { focus-workspace-previous; }
+
+    Super+Ctrl+Q { move-window-to-workspace 1 focus=false; }
+    Super+Ctrl+W { move-window-to-workspace 2 focus=false; }
+    Super+Ctrl+E { move-window-to-workspace 3 focus=false; }
+    Super+Ctrl+A { move-window-to-workspace 4 focus=false; }
+    Super+Ctrl+S { move-window-to-workspace 5 focus=false; }
+    Super+Ctrl+D { move-window-to-workspace 6 focus=false; }
+    Super+Ctrl+Z { move-window-to-workspace 7 focus=false; }
+    Super+Ctrl+X { move-window-to-workspace 8 focus=false; }
+    Super+Ctrl+C { move-window-to-workspace 9 focus=false; }
+    Super+Ctrl+V { move-window-to-workspace 255 focus=false; }
+
+    Super+J { focus-column-left; }
+    Super+K { focus-window-or-workspace-down; }
+    Super+L { focus-window-or-workspace-up; }
+    Super+Semicolon { focus-column-right; }
+    Super+Ctrl+J { move-column-left; }
+    Super+Ctrl+K { move-window-down-or-to-workspace-down; }
+    Super+Ctrl+L { move-window-up-or-to-workspace-up; }
+    Super+Ctrl+Semicolon { move-column-right; }
+
+    // Move the focused window through the left/right side of its column.
+    Super+Comma repeat=false { consume-or-expel-window-left; }
+    Super+Period repeat=false { consume-or-expel-window-right; }
+    Super+Ctrl+Comma { move-workspace-up; }
+    Super+Ctrl+Period { move-workspace-down; }
+
+    Super+M { focus-monitor-left; }
+    Super+Slash { focus-monitor-right; }
+    Super+Ctrl+M { move-workspace-to-monitor-left; }
+    Super+Ctrl+Slash { move-workspace-to-monitor-right; }
+
+    // Snap to half/full width or height. Ctrl adjusts by 5 percentage points.
+    // Width adjusts the column; height adjusts the focused window.
+    Super+U { set-column-width "50%"; }
+    Super+I { set-window-height "50%"; }
+    Super+O { set-window-height "100%"; }
+    Super+P { set-column-width "100%"; }
+    Super+Ctrl+U { set-column-width "-5%"; }
+    Super+Ctrl+I { set-window-height "-5%"; }
+    Super+Ctrl+O { set-window-height "+5%"; }
+    Super+Ctrl+P { set-column-width "+5%"; }
+
+    Super+F repeat=false { fullscreen-window; }
+    Super+Apostrophe repeat=false { close-window; }
+    Super+Space repeat=false { switch-focus-between-floating-and-tiling; }
+    Super+Ctrl+Space repeat=false { toggle-window-floating; }
+    Super+Return repeat=false { spawn-sh "exec python3 \"$HOME/.config/niri/workspaces.py\" name"; }
+
+    Super+Escape repeat=false { spawn "fuzzel"; }
+    Super+Y repeat=false { spawn "spotify"; }
+    Super+G repeat=false { spawn "ghostty"; }
+    Super+Ctrl+G repeat=false { spawn "ghostty" "+new-window" "-e" "claude"; }
+    Super+H repeat=false { spawn "firefox" "--new-window"; }
+    Super+Ctrl+H repeat=false { spawn "firefox" "--new-window" "--private-window"; }
+    Super+B repeat=false { spawn "thunar"; }
+    Super+N repeat=false { spawn "code" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
+    Super+Ctrl+N repeat=false { spawn "code" "--new-window" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
+
+    Super+BackSpace repeat=false { spawn "niri" "msg" "action" "load-config-file"; }
+    Super+Ctrl+BackSpace repeat=false { spawn "swaylock"; }
+
+    // Intentionally free: Super+R/T, Super+Ctrl+R/T/Y/F/B/Return, bare Super.
+    // No tabbed layout, additional navigation keys, or overview key binding.
+    // TODO: decide Print chords in the next round; no screenshot binds yet.
+
+    XF86MonBrightnessUp { spawn "brightnessctl" "--exponent=2.5" "set" "+10%"; }
+    XF86MonBrightnessDown { spawn "brightnessctl" "--exponent=2.5" "set" "10%-"; }
+    XF86AudioPlay allow-when-locked=true repeat=false { spawn "playerctl" "play-pause"; }
+    XF86AudioPause allow-when-locked=true repeat=false { spawn "playerctl" "play-pause"; }
+    XF86AudioStop allow-when-locked=true repeat=false { spawn "playerctl" "stop"; }
+    XF86AudioNext repeat=false { spawn "playerctl" "next"; }
+    XF86AudioPrev repeat=false { spawn "playerctl" "previous"; }
+    XF86AudioForward { spawn "playerctl" "position" "+10"; }
+    XF86AudioRewind { spawn "playerctl" "position" "-10"; }
+    XF86AudioMute repeat=false { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioLowerVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioRaiseVolume { spawn "wpctl" "set-volume" "-l" "1.0" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+}

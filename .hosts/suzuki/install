@@ -310,9 +310,12 @@ install_tools() {
 
 install_desktop() {
     # graphical desktop environment and GUI apps
+    # https://wiki.archlinux.org/title/Niri#Installation
+    # niri-session integrates portals; keep Sway available as a fallback.
     arch-chroot "$MOUNT" pacman -S --needed --noconfirm \
         polkit brightnessctl playerctl \
         mesa vulkan-radeon \
+        niri xwayland-satellite xdg-desktop-portal-gnome \
         sway swaylock sway-contrib swaybg waybar mako fuzzel bluetui \
         xdg-desktop-portal-gtk xdg-desktop-portal-wlr \
         firefox ghostty thunar spotify-launcher

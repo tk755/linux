@@ -1,0 +1,11 @@
+{
+    // Reuse the existing modules; override only the compositor integration.
+    "include": ["~/.config/waybar/config.jsonc"],
+    "modules-center": ["niri/workspaces"],
+    "niri/workspaces": {
+        "current-only": true,
+        "all-outputs": false,
+        "disable-markup": true,
+        "format": "{value}"
+    }
+}
