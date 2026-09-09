@@ -26,18 +26,19 @@ Super+Ctrl+J/semicolon moves the whole column horizontally.
 Super+comma/period moves the focused window through the left/right side of its
 column: an isolated window joins the neighboring column; a grouped window leaves
 into a new column on that side. Super+Ctrl+comma/period reorders whole workspaces
-up/down. Super+Ctrl+M/slash moves a whole workspace to the left/right monitor.
+down/up. Super+Ctrl+M/slash moves a whole workspace to the left/right monitor.
 
 Native touchpad gestures: three fingers horizontally scroll columns; three fingers
-vertically switch workspaces; four fingers vertically open/close overview. Bare
-Super and an overview keybinding are intentionally unassigned. Native gesture
+vertically switch workspaces; four fingers vertically open/close overview. Super+Return
+also toggles overview; bare Super remains unassigned. Native gesture
 finger counts are not configurable in this version. Short, non-bouncing animations
 retain movement/fullscreen feedback. Keyboard repeat stays at 600 ms delay, 25 Hz.
 
 ## Workspace names
 
-Super+Return opens a fuzzel prompt with the current name prefilled. Enter applies
-the name; Escape or an empty submission cancels. Duplicate names are rejected.
+Super+Ctrl+Return opens the fuzzel prompt with the current name prefilled.
+Enter applies a nonempty name; Escape cancels without changing it.
+Duplicate names are rejected. The prompt does not support removing a name.
 The prompt targets the original workspace by its stable ID even if it moves.
 
 Niri normally preserves named workspaces when empty. `workspaces.py watch` removes
@@ -68,19 +69,19 @@ Z:WS7    X:WS8    C:WS9    V:emptyWS B:files    | N:VSCode   M:screen← ,:group
 Super+Ctrl:
 
 ```text
-Q:send1  W:send2  E:send3  R:—       T:—        | Y:—        U:width−5 I:height−5 O:height+5 P:width+5
+Q:send1  W:send2  E:send3  R:—       T:—        | Y:—        U:width−⅛ I:height−¼ O:height+¼ P:width+⅛
 A:send4  S:send5  D:send6  F:—       G:Claude   | H:private  J:column← K:window↓ L:window↑ ;:column→
-Z:send7  X:send8  C:send9  V:sendNew B:—        | N:newCode  M:WSscr←  ,:WS↑     .:WS↓     /:WSscr→
+Z:send7  X:send8  C:send9  V:sendNew B:—        | N:newCode  M:WSscr←  ,:WS↓     .:WS↑     /:WSscr→
 ```
 
 Send moves only the focused window without following it. Super+U/I/O/P snaps to
 half width, half height, full height, and full width respectively. Ctrl+U/I/O/P
-adjusts those dimensions by −5%, −5%, +5%, and +5% of the working area. Width is
+adjusts width by −⅛/+⅛ and height by −¼/+¼ of the working area. Width is
 column-wide for tiled windows; full width is distinct from Super+F fullscreen.
 
 | Key | Super | Super+Ctrl |
 | --- | --- | --- |
-| Return | Name/rename workspace | Unassigned |
+| Return | Toggle overview | Name/rename workspace |
 | Space | Focus floating/tiling layer | Toggle floating |
 | Tab | Previous workspace | Unassigned |
 | Apostrophe | Close window | Unassigned |

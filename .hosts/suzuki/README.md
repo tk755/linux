@@ -91,12 +91,14 @@ all/root/       → shared across hosts (e.g. OLKB Planck udev rule)
 ### Desktop session
 
 TTY1 login starts `niri-session`. Configuration and the positional keymap are in
-[`~/.config/niri/README.md`](../../.config/niri/README.md). Super+Return names the
-current workspace; empty named workspaces disappear after leaving them. Waybar
-shows the current workspace name.
+[`~/.config/niri/README.md`](../../.config/niri/README.md). Super+Return toggles the
+overview; Super+Ctrl+Return names or renames the current workspace. Escape cancels.
+Empty named workspaces disappear after leaving them. Waybar shows the current
+workspace name.
 
 Super+U/I/O/P snaps to half width, half height, full height, and full width.
-Adding Ctrl resizes in 5% steps. Print bindings and hibernation remain deferred.
+Adding Ctrl resizes by ⅛ of the working-area width or ¼ of its height.
+Print bindings and hibernation remain deferred.
 Niri cannot apply the existing display ICC profile. The original Sway config is
 retained; from an unused TTY, run `WLR_RENDERER=vulkan XDG_CURRENT_DESKTOP=sway sway`
 to use it.

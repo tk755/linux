@@ -63,7 +63,7 @@ def name_workspace():
         return  # Escape cancels without changing the existing name.
     name = result.stdout.strip()
     if not name:
-        return  # Empty input is also a cancellation; cleanup handles empty workspaces.
+        return  # Ignore blank input without changing the workspace name.
     current = workspaces()
     if not any(w["id"] == workspace["id"] for w in current):
         raise RuntimeError("the workspace was removed while the prompt was open")

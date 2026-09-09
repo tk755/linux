@@ -105,30 +105,31 @@ binds {
     // Move the focused window through the left/right side of its column.
     Super+Comma repeat=false { consume-or-expel-window-left; }
     Super+Period repeat=false { consume-or-expel-window-right; }
-    Super+Ctrl+Comma { move-workspace-up; }
-    Super+Ctrl+Period { move-workspace-down; }
+    Super+Ctrl+Comma { move-workspace-down; }
+    Super+Ctrl+Period { move-workspace-up; }
 
     Super+M { focus-monitor-left; }
     Super+Slash { focus-monitor-right; }
     Super+Ctrl+M { move-workspace-to-monitor-left; }
     Super+Ctrl+Slash { move-workspace-to-monitor-right; }
 
-    // Snap to half/full width or height. Ctrl adjusts by 5 percentage points.
+    // Snap to half/full width or height. Ctrl steps by 1/8 width or 1/4 height.
     // Width adjusts the column; height adjusts the focused window.
     Super+U { set-column-width "50%"; }
     Super+I { set-window-height "50%"; }
     Super+O { set-window-height "100%"; }
     Super+P { set-column-width "100%"; }
-    Super+Ctrl+U { set-column-width "-5%"; }
-    Super+Ctrl+I { set-window-height "-5%"; }
-    Super+Ctrl+O { set-window-height "+5%"; }
-    Super+Ctrl+P { set-column-width "+5%"; }
+    Super+Ctrl+U { set-column-width "-12.5%"; }
+    Super+Ctrl+I { set-window-height "-25%"; }
+    Super+Ctrl+O { set-window-height "+25%"; }
+    Super+Ctrl+P { set-column-width "+12.5%"; }
 
     Super+F repeat=false { fullscreen-window; }
     Super+Apostrophe repeat=false { close-window; }
     Super+Space repeat=false { switch-focus-between-floating-and-tiling; }
     Super+Ctrl+Space repeat=false { toggle-window-floating; }
-    Super+Return repeat=false { spawn-sh "exec python3 \"$HOME/.config/niri/workspaces.py\" name"; }
+    Super+Return repeat=false { toggle-overview; }
+    Super+Ctrl+Return repeat=false { spawn-sh "exec python3 \"$HOME/.config/niri/workspaces.py\" name"; }
 
     Super+Escape repeat=false { spawn "fuzzel"; }
     Super+Y repeat=false { spawn "spotify"; }
@@ -143,8 +144,8 @@ binds {
     Super+BackSpace repeat=false { spawn "niri" "msg" "action" "load-config-file"; }
     Super+Ctrl+BackSpace repeat=false { spawn "swaylock"; }
 
-    // Intentionally free: Super+R/T, Super+Ctrl+R/T/Y/F/B/Return, bare Super.
-    // No tabbed layout, additional navigation keys, or overview key binding.
+    // Intentionally free: Super+R/T, Super+Ctrl+R/T/Y/F/B, bare Super.
+    // No tabbed layout or additional navigation keys.
     // TODO: decide Print chords in the next round; no screenshot binds yet.
 
     XF86MonBrightnessUp { spawn "brightnessctl" "--exponent=2.5" "set" "+10%"; }
