@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
 
 # gtk-3 config path
