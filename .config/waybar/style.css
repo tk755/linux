@@ -95,17 +95,17 @@ window#waybar {
     padding: 2px 11px 2px 7px; /* center arch glyph (right - left = 4) */
 }
 
-/* workspace dots */
+/* current workspace name or index */
 #workspaces button {
     background: transparent;
     color: #464646;
     min-width: 16px;
-    padding: 0 3px;
+    padding: 0 8px;
     border: none;
     border-radius: 0;
 }
 
-#workspaces button.focused {
+#workspaces button.active {
     color: #D8DEE9;
 }
 

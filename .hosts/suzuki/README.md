@@ -21,7 +21,7 @@ Arch Linux on a Framework Laptop 13.
 - **Encryption** — LUKS2 via sd-encrypt (TPM2 auto-unlock)
 - **Bootloader** — systemd-boot
 - **Swap** — zram ram/2 (no swap partition)
-- **Desktop** — niri (Wayland), Sway installed as a fallback
+- **Desktop** — sway (Wayland)
 - **Network** — NetworkManager + iwd backend (MT7922 5GHz stability)
 - **Power** — power-profiles-daemon (not tlp, discouraged for Ryzen 7040)
 - **Snapshots** — snapper + snap-pac (pacman hooks, no timeline)
@@ -87,23 +87,6 @@ all/root/       → shared across hosts (e.g. OLKB Planck udev rule)
 ```
 
 ## Maintenance
-
-### Desktop session
-
-TTY1 login starts `niri-session`. Configuration and the positional keymap are in
-[`~/.config/niri/README.md`](../../.config/niri/README.md). Super+Return toggles the
-overview; Super+Ctrl+Return names or renames the current workspace. Escape cancels.
-Empty named workspaces disappear after leaving them. Waybar shows the current
-workspace name.
-
-Super+U/I/O/P snaps to half width, half height, full height, and full width.
-Adding Ctrl resizes by ⅛ of the working-area width or ¼ of its height.
-Print bindings and hibernation remain deferred.
-Niri cannot apply the existing display ICC profile. The original Sway config is
-retained; from an unused TTY, run `WLR_RENDERER=vulkan XDG_CURRENT_DESKTOP=sway sway`
-to use it.
-
-### Hardware
 
 Verified August 2026. Expected behavior, not faults:
 

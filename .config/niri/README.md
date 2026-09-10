@@ -41,7 +41,7 @@ Enter applies a nonempty name; Escape cancels without changing it.
 Duplicate names are rejected. The prompt does not support removing a name.
 The prompt targets the original workspace by its stable ID even if it moves.
 
-Niri normally preserves named workspaces when empty. `workspaces.py watch` removes
+Niri normally preserves named workspaces when empty. `scripts/workspaces.py watch` removes
 the name when the workspace is empty and no longer visible on its monitor; niri
 then cleans it up. This lets you name an empty workspace before launching apps.
 An empty workspace still visible on another monitor keeps its name. Disconnected
@@ -50,8 +50,8 @@ not a saved window/session restoration mechanism. No unname shortcut is assigned
 
 Waybar shows the current workspace's name, or its index when unnamed. Niri's
 overview does not draw workspace-name labels directly on every thumbnail; the
-bar remains the name display. The niri Waybar files include the shared Waybar
-configuration/style and override only the workspace module.
+bar remains the name display. Waybar uses its standard configuration and stylesheet
+in `~/.config/waybar/`, with the `niri/workspaces` module.
 
 ## Positional keymap
 

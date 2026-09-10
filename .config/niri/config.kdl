@@ -21,7 +21,7 @@ layout {
     center-focused-column "never"
     default-column-width { proportion 0.5; }
     focus-ring {
-        width 2
+        width 3
         active-color "#363840"
         inactive-color "#14161c"
         urgent-color "#5b9bf8"
@@ -59,10 +59,11 @@ window-rule {
 }
 
 // niri-session manages the environment and on-demand portals/Xwayland.
-spawn-sh-at-startup "exec waybar -c \"$HOME/.config/niri/waybar.jsonc\" -s \"$HOME/.config/niri/waybar.css\""
+spawn-at-startup "waybar"
 spawn-at-startup "systemctl" "--user" "start" "mako.service"
-spawn-sh-at-startup "exec \"$HOME/.config/niri/startup.sh\""
-spawn-sh-at-startup "exec python3 \"$HOME/.config/niri/workspaces.py\" watch"
+spawn-sh-at-startup "exec \"$HOME/.config/niri/scripts/import-gtk3-settings.sh\""
+spawn-sh-at-startup "exec \"$HOME/.config/niri/scripts/wallpaper.sh\""
+spawn-sh-at-startup "exec python3 \"$HOME/.config/niri/scripts/workspaces.py\" watch"
 
 // Keep the existing screenshot destination. Print chords await the next round.
 screenshot-path "~/Pictures/%m-%d-%y_%H-%M-%S.png"
@@ -129,10 +130,10 @@ binds {
     Super+Space repeat=false { switch-focus-between-floating-and-tiling; }
     Super+Ctrl+Space repeat=false { toggle-window-floating; }
     Super+Return repeat=false { toggle-overview; }
-    Super+Ctrl+Return repeat=false { spawn-sh "exec python3 \"$HOME/.config/niri/workspaces.py\" name"; }
+    Super+Ctrl+Return repeat=false { spawn-sh "exec python3 \"$HOME/.config/niri/scripts/workspaces.py\" name"; }
 
     Super+Escape repeat=false { spawn "fuzzel"; }
-    Super+Y repeat=false { spawn "spotify"; }
+    Super+Y repeat=false { spawn "spotify-launcher"; }
     Super+G repeat=false { spawn "ghostty"; }
     Super+Ctrl+G repeat=false { spawn "ghostty" "+new-window" "-e" "claude"; }
     Super+H repeat=false { spawn "firefox" "--new-window"; }

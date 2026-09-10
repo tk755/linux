@@ -501,7 +501,6 @@ main() {
     setup_snapshots
     msg "Setting up keyboard"
     setup_keyboard
-
     msg "Setting up Dropbox"
     setup_dropbox
 
