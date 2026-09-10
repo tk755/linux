@@ -8,10 +8,10 @@ BACKUP_DIR="$HOME/.bootstrap-backup"
 
 # paths to exclude in headless install
 HEADLESS_EXCLUDES=(
-    ".config/i3"
-    ".config/sway"
-    ".config/niri"
     ".config/gtk-3.0"
+    ".config/i3"
+    ".config/niri"
+    ".config/sway"
     ".fonts"
     ".icons"
     ".themes"
