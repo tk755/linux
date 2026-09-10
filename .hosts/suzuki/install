@@ -313,15 +313,17 @@ install_desktop() {
     arch-chroot "$MOUNT" pacman -S --needed --noconfirm \
         polkit brightnessctl playerctl \
         mesa vulkan-radeon \
-        xdg-desktop-portal-gtk xdg-desktop-portal-gnome xwayland-satellite \
-        niri swaylock swaybg waybar mako fuzzel bluetui \
+        niri xwayland-satellite \
+        xdg-desktop-portal-gtk xdg-desktop-portal-gnome \
+        swaylock swaybg waybar mako fuzzel bluetui \
         firefox ghostty thunar spotify-launcher
     aur_install visual-studio-code-bin
 
+    # https://github.com/niri-wm/niri/wiki/Example-systemd-Setup
     # https://wiki.archlinux.org/title/Chroot#Usage
     # --global enables for all users via /etc/systemd/user/ (no D-Bus needed in chroot)
     arch-chroot "$MOUNT" systemctl --global add-wants \
-        niri.service mako.service waybar.service
+        niri.service waybar.service mako.service
 }
 
 setup_mirrors() {
