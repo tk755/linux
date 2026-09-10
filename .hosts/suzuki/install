@@ -317,6 +317,11 @@ install_desktop() {
         niri swaylock swaybg waybar mako fuzzel bluetui \
         firefox ghostty thunar spotify-launcher
     aur_install visual-studio-code-bin
+
+    # https://wiki.archlinux.org/title/Chroot#Usage
+    # --global enables for all users via /etc/systemd/user/ (no D-Bus needed in chroot)
+    arch-chroot "$MOUNT" systemctl --global add-wants \
+        niri.service mako.service waybar.service
 }
 
 setup_mirrors() {
@@ -351,8 +356,7 @@ setup_audio() {
     # pipewire-pulse replaces pulseaudio, pipewire-alsa provides alsa compatibility
     arch-chroot "$MOUNT" pacman -S --needed --noconfirm \
         pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber
-    # https://wiki.archlinux.org/title/Chroot#Usage
-    # --global enables for all users via /etc/systemd/user/ (no D-Bus needed in chroot)
+
     arch-chroot "$MOUNT" systemctl --global enable \
         pipewire.socket pipewire-pulse.socket wireplumber.service
 }
