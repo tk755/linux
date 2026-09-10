@@ -1,16 +1,14 @@
-# environment variables and tools
+# source environment variables and tools
 if [[ -f "$HOME/.bash/env.sh" ]]; then
     source "$HOME/.bash/env.sh"
 fi
 
-# Only interactive TTY1 logins start a desktop. niri-session itself starts a
-# noninteractive login shell, so the interactive guard prevents recursion.
+# start desktop session from interactive TTY1 login
 if [[ $- == *i* && -z "${WAYLAND_DISPLAY:-}" && -z "${DISPLAY:-}" && ${XDG_VTNR:-0} == 1 ]]; then
     if command -v niri-session &>/dev/null; then
-        unset WLR_RENDERER SWAYSOCK
         exec niri-session
     elif command -v sway &>/dev/null; then
-        # Vulkan is required for Sway's ICC color management.
+        # vulkan required for icc color management on sway
         export WLR_RENDERER=vulkan
         export XDG_CURRENT_DESKTOP=sway
         exec sway
