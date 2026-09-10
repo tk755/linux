@@ -1,0 +1,43 @@
+# model and response style
+model = "gpt-6-astra"
+model_reasoning_effort = "high"
+personality = "pragmatic"
+
+# approvals and sandbox
+approval_policy = "on-request"
+approvals_reviewer = "auto_review"
+sandbox_mode = "workspace-write"
+
+# instructions and editor
+project_doc_fallback_filenames = ["CLAUDE.md"]
+file_opener = "vscode"
+
+[sandbox_workspace_write]
+network_access = true
+
+[tui]
+resume_cwd = "session"
+show_tooltips = true
+auto_recap = false
+animations = true
+whimsy = false
+
+terminal_title = ["spinner", "project", "thread"]
+status_line_use_colors = true
+status_line = [
+  "model-with-reasoning",
+  "current-dir",
+  "thread-name",
+  "context-used",
+  "five-hour-limit",
+  "weekly-limit",
+]
+
+[analytics]
+enabled = false
+
+[otel]
+exporter = "none"
+trace_exporter = "none"
+metrics_exporter = "none"
+log_user_prompt = false
