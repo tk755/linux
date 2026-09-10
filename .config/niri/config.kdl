@@ -1,84 +1,108 @@
-// niri 26.04. Only the agreed bindings from the Sway migration.
-// https://niri-wm.github.io/niri/Configuration:-Introduction
+// niri 26.04
+
+// TODO:
+// print-screen bindings and screenshot workflow
+// Firefox auth/extension popups: https://github.com/niri-wm/niri/discussions/1599
+// workspace naming and automatic cleanup when empty
+// Waybar failed-unit diagnostics and click action
+// hibernation for preserving the session across shutdown
+
+// TODO (unimplemented):
+// fill empty space after shrinking/closing columns: https://github.com/niri-wm/niri/pull/4400
+// toggle overview by tapping Super alone: https://github.com/niri-wm/niri/pull/3621 (builds on #2456)
+
+// session startup
+spawn-sh-at-startup "exec \"${HOME}/.config/niri/scripts/startup.sh\""
+
+// screenshots
+screenshot-path "~/pics/screenshots/suzuki/%m-%d-%y_%H-%M-%S.png"
+
+// input
 input {
+    focus-follows-mouse
     keyboard {
         xkb { layout "us"; }
-        repeat-delay 600
-        repeat-rate 25
+        repeat-delay 200
     }
     touchpad {
         natural-scroll
     }
 }
 
+// display
 output "eDP-1" {
     mode "2880x1920@120"
     scale 2
 }
 
+// layout and appearance
 layout {
-    gaps 8
     center-focused-column "never"
     default-column-width { proportion 0.5; }
-    focus-ring {
+    focus-ring { off; }
+    border {
+        on
         width 3
         active-color "#363840"
         inactive-color "#14161c"
         urgent-color "#5b9bf8"
     }
-    border { off; }
+    gaps 8
 }
 
 prefer-no-csd
 hotkey-overlay { skip-at-startup; }
 
-// Short movement feedback with no overshoot. Gestures remain continuous.
-animations {
-    workspace-switch { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
-    horizontal-view-movement { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
-    window-movement { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
-    window-resize { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
-    overview-open-close { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
-    window-open { duration-ms 100; curve "ease-out-quad"; }
-    window-close { duration-ms 100; curve "ease-out-quad"; }
+// overview
+overview {
+    backdrop-color "#14161c"
 }
 
+// animations
+animations {
+    workspace-switch         { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
+    horizontal-view-movement { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
+    window-movement          { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
+    window-resize            { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
+    overview-open-close      { spring damping-ratio=1.0 stiffness=1600 epsilon=0.0001; }
+    window-open              { duration-ms 100; curve "ease-out-quad"; }
+    window-close             { duration-ms 100; curve "ease-out-quad"; }
+}
+
+// window rules
 window-rule {
-    match app-id=r#"^firefox$"#
+    match app-id="^firefox$"
     default-column-width { proportion 1.0; }
 }
 window-rule {
-    match app-id=r#"^firefox$"# title="^Picture-in-Picture$"
+    match app-id="^firefox$" title="^Picture-in-Picture$"
     open-floating true
 }
 window-rule {
-    match app-id="^com\\.waybar\\.popup$"
+    match app-id=r#"^com\.waybar\.popup$"#
     open-floating true
-    default-column-width { fixed 800; }
+    default-column-width  { fixed 800; }
     default-window-height { fixed 500; }
 }
 
-// niri-session manages the environment and on-demand portals/Xwayland.
-spawn-sh-at-startup "exec \"${HOME}/.config/niri/scripts/startup.sh\""
-
-// Keep the existing screenshot destination. Print chords await the next round.
-screenshot-path "~/Pictures/%m-%d-%y_%H-%M-%S.png"
-
+// keybindings
 binds {
-    // Workspace indices are their current positions on the focused monitor.
-    Super+Q { focus-workspace 1; }
-    Super+W { focus-workspace 2; }
-    Super+E { focus-workspace 3; }
-    Super+A { focus-workspace 4; }
-    Super+S { focus-workspace 5; }
-    Super+D { focus-workspace 6; }
-    Super+Z { focus-workspace 7; }
-    Super+X { focus-workspace 8; }
-    Super+C { focus-workspace 9; }
-    // Indices beyond the workspace count resolve to the bottom empty workspace.
-    Super+V { focus-workspace 255; }
+
+    // workspace focus
+    Super+Q   { focus-workspace 1; }
+    Super+W   { focus-workspace 2; }
+    Super+E   { focus-workspace 3; }
+    Super+A   { focus-workspace 4; }
+    Super+S   { focus-workspace 5; }
+    Super+D   { focus-workspace 6; }
+    Super+Z   { focus-workspace 7; }
+    Super+X   { focus-workspace 8; }
+    Super+C   { focus-workspace 9; }
+    // index 255 selects the bottom empty workspace
+    Super+V   { focus-workspace 255; }
     Super+Tab { focus-workspace-previous; }
 
+    // send windows to workspaces
     Super+Ctrl+Q { move-window-to-workspace 1 focus=false; }
     Super+Ctrl+W { move-window-to-workspace 2 focus=false; }
     Super+Ctrl+E { move-window-to-workspace 3 focus=false; }
@@ -90,70 +114,70 @@ binds {
     Super+Ctrl+C { move-window-to-workspace 9 focus=false; }
     Super+Ctrl+V { move-window-to-workspace 255 focus=false; }
 
-    Super+J { focus-column-left; }
-    Super+K { focus-window-or-workspace-down; }
-    Super+L { focus-window-or-workspace-up; }
-    Super+Semicolon { focus-column-right; }
-    Super+Ctrl+J { move-column-left; }
-    Super+Ctrl+K { move-window-down-or-to-workspace-down; }
-    Super+Ctrl+L { move-window-up-or-to-workspace-up; }
+    // focus and move windows
+    Super+J              { focus-column-left; }
+    Super+K              { focus-window-or-workspace-down; }
+    Super+L              { focus-window-or-workspace-up; }
+    Super+Semicolon      { focus-column-right; }
+    Super+Ctrl+J         { move-column-left; }
+    Super+Ctrl+K         { move-window-down-or-to-workspace-down; }
+    Super+Ctrl+L         { move-window-up-or-to-workspace-up; }
     Super+Ctrl+Semicolon { move-column-right; }
 
-    // Move the focused window through the left/right side of its column.
-    Super+Comma repeat=false { consume-or-expel-window-left; }
-    Super+Period repeat=false { consume-or-expel-window-right; }
-    Super+Ctrl+Comma { move-workspace-down; }
+    // focus and move workspaces
+    Super+M           { focus-monitor-left; }
+    Super+Slash       { focus-monitor-right; }
+    Super+Ctrl+M      { move-workspace-to-monitor-left; }
+    Super+Ctrl+Comma  { move-workspace-down; }
     Super+Ctrl+Period { move-workspace-up; }
+    Super+Ctrl+Slash  { move-workspace-to-monitor-right; }
 
-    Super+M { focus-monitor-left; }
-    Super+Slash { focus-monitor-right; }
-    Super+Ctrl+M { move-workspace-to-monitor-left; }
-    Super+Ctrl+Slash { move-workspace-to-monitor-right; }
+    // column grouping
+    Super+Comma  repeat=false { consume-or-expel-window-left; }
+    Super+Period repeat=false { consume-or-expel-window-right; }
 
-    // Snap to half/full width or height. Ctrl steps by 1/8 width or 1/4 height.
-    // Width adjusts the column; height adjusts the focused window.
-    Super+U { set-column-width "50%"; }
-    Super+I { set-window-height "50%"; }
-    Super+O { set-window-height "100%"; }
-    Super+P { set-column-width "100%"; }
+    // change window and column sizing
+    Super+U      { set-column-width "50%"; }
+    Super+I      { set-window-height "50%"; }
+    Super+O      { set-window-height "100%"; }
+    Super+P      { set-column-width "100%"; }
     Super+Ctrl+U { set-column-width "-12.5%"; }
     Super+Ctrl+I { set-window-height "-25%"; }
     Super+Ctrl+O { set-window-height "+25%"; }
     Super+Ctrl+P { set-column-width "+12.5%"; }
 
-    Super+F repeat=false { fullscreen-window; }
+    // border keys
+    Super+BackSpace  repeat=false { spawn "swaylock"; }
+    Super+Return     repeat=false { toggle-overview; }
     Super+Apostrophe repeat=false { close-window; }
-    Super+Space repeat=false { switch-focus-between-floating-and-tiling; }
-    Super+Ctrl+Space repeat=false { toggle-window-floating; }
-    Super+Return repeat=false { toggle-overview; }
+    Super+Space      repeat=false { fullscreen-window; }
+    Super+Escape     repeat=false { spawn "fuzzel"; }
 
-    Super+Escape repeat=false { spawn "fuzzel"; }
-    Super+Y repeat=false { spawn "spotify-launcher"; }
-    Super+G repeat=false { spawn "ghostty"; }
+    // launch applications
+    Super+Y      repeat=false { spawn "spotify-launcher"; }
+    Super+G      repeat=false { spawn "ghostty"; }
     Super+Ctrl+G repeat=false { spawn "ghostty" "+new-window" "-e" "claude"; }
-    Super+H repeat=false { spawn "firefox" "--new-window"; }
+    Super+H      repeat=false { spawn "firefox" "--new-window"; }
     Super+Ctrl+H repeat=false { spawn "firefox" "--new-window" "--private-window"; }
-    Super+B repeat=false { spawn "thunar"; }
-    Super+N repeat=false { spawn "code" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
+    Super+B      repeat=false { spawn "thunar"; }
+    Super+N      repeat=false { spawn "code" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
     Super+Ctrl+N repeat=false { spawn "code" "--new-window" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
 
-    Super+BackSpace repeat=false { spawn "niri" "msg" "action" "load-config-file"; }
-    Super+Ctrl+BackSpace repeat=false { spawn "swaylock"; }
-
-    // Intentionally free: Super+R/T, Super+Ctrl+R/T/Y/F/B, bare Super.
-    // No tabbed layout or additional navigation keys.
-    // TODO: decide Print chords in the next round; no screenshot binds yet.
-
-    XF86MonBrightnessUp { spawn "brightnessctl" "--exponent=2.5" "set" "+10%"; }
+    // brightness
+    XF86MonBrightnessUp   { spawn "brightnessctl" "--exponent=2.5" "set" "+10%"; }
     XF86MonBrightnessDown { spawn "brightnessctl" "--exponent=2.5" "set" "10%-"; }
-    XF86AudioPlay allow-when-locked=true repeat=false { spawn "playerctl" "play-pause"; }
-    XF86AudioPause allow-when-locked=true repeat=false { spawn "playerctl" "play-pause"; }
-    XF86AudioStop allow-when-locked=true repeat=false { spawn "playerctl" "stop"; }
-    XF86AudioNext repeat=false { spawn "playerctl" "next"; }
-    XF86AudioPrev repeat=false { spawn "playerctl" "previous"; }
-    XF86AudioForward { spawn "playerctl" "position" "+10"; }
-    XF86AudioRewind { spawn "playerctl" "position" "-10"; }
-    XF86AudioMute repeat=false { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
-    XF86AudioLowerVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
-    XF86AudioRaiseVolume { spawn "wpctl" "set-volume" "-l" "1.0" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+
+    // playback
+    XF86AudioPlay    repeat=false allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPause   repeat=false allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioStop    repeat=false allow-when-locked=true { spawn "playerctl" "stop"; }
+    XF86AudioNext    repeat=false                        { spawn "playerctl" "next"; }
+    XF86AudioPrev    repeat=false                        { spawn "playerctl" "previous"; }
+    XF86AudioForward                                     { spawn "playerctl" "position" "+10"; }
+    XF86AudioRewind                                      { spawn "playerctl" "position" "-10"; }
+
+    // volume
+    XF86AudioMute        repeat=false { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioLowerVolume              { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioRaiseVolume              { spawn "wpctl" "set-volume" "-l" "1.0" "@DEFAULT_AUDIO_SINK@" "5%+"; }
 }
