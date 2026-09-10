@@ -1,7 +1,6 @@
 // niri 26.04
 
 // TODO:
-// print-screen bindings and screenshot workflow
 // Firefox auth/extension popups: https://github.com/niri-wm/niri/discussions/1599
 // workspace naming and automatic cleanup when empty
 // Waybar failed-unit diagnostics and click action
@@ -162,6 +161,10 @@ binds {
     Super+B      repeat=false { spawn "thunar"; }
     Super+N      repeat=false { spawn "code" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
     Super+Ctrl+N repeat=false { spawn "code" "--new-window" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
+
+    // screenshots
+    Print       repeat=false { screenshot show-pointer=false; }
+    Shift+Print repeat=false { screenshot-window show-pointer=false; }
 
     // brightness
     XF86MonBrightnessUp   { spawn "brightnessctl" "--exponent=2.5" "set" "+10%"; }
