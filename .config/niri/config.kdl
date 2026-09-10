@@ -1,7 +1,6 @@
 // niri 26.04
 
 // TODO:
-// Firefox auth/extension popups: https://github.com/niri-wm/niri/discussions/1599
 // workspace naming and automatic cleanup when empty
 // Waybar failed-unit diagnostics and click action
 // hibernation for preserving the session across shutdown
@@ -10,8 +9,9 @@
 // fill empty space after shrinking/closing columns: https://github.com/niri-wm/niri/pull/4400
 // toggle overview by tapping Super alone: https://github.com/niri-wm/niri/pull/3621 (builds on #2456)
 
-// session startup
+// session startup and listeners
 spawn-sh-at-startup "exec \"${HOME}/.config/niri/scripts/startup.sh\""
+spawn-sh-at-startup "exec \"${HOME}/.config/niri/scripts/bitwarden-popups.py\""
 
 // screenshots
 screenshot-path "~/pics/screenshots/suzuki/%m-%d-%y_%H-%M-%S.png"
