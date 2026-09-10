@@ -47,6 +47,7 @@ window#waybar {
 #custom-weather,
 #custom-claude,
 #systemd-failed-units,
+#workspaces button,
 #pulseaudio,
 #backlight,
 #custom-bluetooth,
@@ -95,18 +96,15 @@ window#waybar {
     padding: 2px 11px 2px 7px; /* center arch glyph (right - left = 4) */
 }
 
-/* workspace dots */
+/* workspace button reset and label */
 #workspaces button {
-    background: transparent;
-    color: #464646;
-    min-width: 16px;
-    padding: 0 3px;
+    min-width: 0;
     border: none;
-    border-radius: 0;
+    box-shadow: none;
 }
 
-#workspaces button.focused {
-    color: #D8DEE9;
+#workspaces button label {
+    font-weight: bold;
 }
 
 /* state colors */

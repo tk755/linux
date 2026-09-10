@@ -9,4 +9,4 @@ elif [[ -f "$wallpaper_dir/default" ]]; then
 fi
 
 # import gtk3 settings
-source "$HOME/.config/sway/scripts/import-gtk3-settings.sh"
+source "${HOME}/.config/gtk-3.0/import-settings.sh"

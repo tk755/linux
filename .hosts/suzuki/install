@@ -313,10 +313,17 @@ install_desktop() {
     arch-chroot "$MOUNT" pacman -S --needed --noconfirm \
         polkit brightnessctl playerctl \
         mesa vulkan-radeon \
-        sway swaylock sway-contrib swaybg waybar mako fuzzel bluetui \
-        xdg-desktop-portal-gtk xdg-desktop-portal-wlr \
+        niri xwayland-satellite \
+        xdg-desktop-portal-gtk xdg-desktop-portal-gnome \
+        swaylock swaybg waybar mako fuzzel bluetui \
         firefox ghostty thunar spotify-launcher
     aur_install visual-studio-code-bin
+
+    # https://github.com/niri-wm/niri/wiki/Example-systemd-Setup
+    # https://wiki.archlinux.org/title/Chroot#Usage
+    # --global enables for all users via /etc/systemd/user/ (no D-Bus needed in chroot)
+    arch-chroot "$MOUNT" systemctl --global add-wants \
+        niri.service waybar.service mako.service
 }
 
 setup_mirrors() {
@@ -351,8 +358,7 @@ setup_audio() {
     # pipewire-pulse replaces pulseaudio, pipewire-alsa provides alsa compatibility
     arch-chroot "$MOUNT" pacman -S --needed --noconfirm \
         pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber
-    # https://wiki.archlinux.org/title/Chroot#Usage
-    # --global enables for all users via /etc/systemd/user/ (no D-Bus needed in chroot)
+
     arch-chroot "$MOUNT" systemctl --global enable \
         pipewire.socket pipewire-pulse.socket wireplumber.service
 }
@@ -498,7 +504,6 @@ main() {
     setup_snapshots
     msg "Setting up keyboard"
     setup_keyboard
-
     msg "Setting up Dropbox"
     setup_dropbox
 

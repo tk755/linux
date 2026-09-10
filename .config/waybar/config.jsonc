@@ -17,7 +17,7 @@
         "systemd-failed-units"
     ],
     "modules-center": [
-        "sway/workspaces"
+        "niri/workspaces"
     ],
     "modules-right": [
         "backlight",
@@ -134,14 +134,9 @@
         "tooltip": false
     },
 
-    "sway/workspaces": {
-        "disable-scroll": true,
-        "format": "{icon}",
-        "format-icons": {
-            "focused": "●",
-            "default": "•",
-            "urgent": "●"
-        }
+    "niri/workspaces": {
+        "current-only": true,
+        "disable-markup": true
     },
 
     "group/clock-group": {
