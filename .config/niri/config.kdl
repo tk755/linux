@@ -60,7 +60,6 @@ window-rule {
 
 // niri-session manages the environment and on-demand portals/Xwayland.
 spawn-sh-at-startup "exec \"${HOME}/.config/niri/scripts/startup.sh\""
-spawn-sh-at-startup "exec python3 \"$HOME/.config/niri/scripts/workspaces.py\" watch"
 
 // Keep the existing screenshot destination. Print chords await the next round.
 screenshot-path "~/Pictures/%m-%d-%y_%H-%M-%S.png"
@@ -127,7 +126,6 @@ binds {
     Super+Space repeat=false { switch-focus-between-floating-and-tiling; }
     Super+Ctrl+Space repeat=false { toggle-window-floating; }
     Super+Return repeat=false { toggle-overview; }
-    Super+Ctrl+Return repeat=false { spawn-sh "exec python3 \"$HOME/.config/niri/scripts/workspaces.py\" name"; }
 
     Super+Escape repeat=false { spawn "fuzzel"; }
     Super+Y repeat=false { spawn "spotify-launcher"; }
