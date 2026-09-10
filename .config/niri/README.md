@@ -131,6 +131,8 @@ WLR_RENDERER=vulkan XDG_CURRENT_DESKTOP=sway sway
 - `~/.bin/bootstrap` excludes `.config/niri` in headless installations.
 - `~/.hosts/suzuki/install` includes niri, xwayland-satellite and the GNOME portal
   in the desktop package list; Sway is retained for fallback use.
+- The shared Waybar failed-unit indicator opens a terminal showing failed system
+  and user units, their status, and recent journal entries when clicked.
 
 References: [niri configuration](https://niri-wm.github.io/niri/Configuration:-Introduction.html),
 [named workspaces](https://niri-wm.github.io/niri/Configuration:-Named-Workspaces.html),
