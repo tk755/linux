@@ -183,8 +183,7 @@
         "format": "󰗖 {nr_failed} failed",
         "hide-on-ok": true,
         "system": true,
-        "user": true,
-        "on-click": "ghostty --class=com.waybar.popup --wait-after-command -e ~/.config/waybar/scripts/failed-units.sh"
+        "user": true
     },
 
     "pulseaudio": {
