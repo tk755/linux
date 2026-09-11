@@ -30,7 +30,8 @@ aur_install() {
     local sudoers="${MOUNT}/etc/sudoers.d/99-paru"
     echo 'tk ALL=(ALL) NOPASSWD: /usr/bin/pacman' > "$sudoers"
     chmod 440 "$sudoers"
-    arch-chroot "$MOUNT" su - tk -c "paru -S --noconfirm --needed $*"
+    # trap stops GnuPG daemons before chroot exits to release their lock files
+    arch-chroot "$MOUNT" su - tk -c "trap 'gpgconf --kill all' EXIT; paru -S --noconfirm --needed $*"
     rm -f "$sudoers"
 }
 
