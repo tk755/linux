@@ -3,10 +3,16 @@
 // TODO:
 // Waybar failed-unit diagnostics and click action
 // hibernation for preserving the session across shutdown
+// rebind fullscreen-window, deferred when Super+Space became the overview
+// rebind consume-or-expel-window-left/right, dropped when Super+Comma and Super+Period became workspace focus
+// recent-windows switcher, unmasked by freeing Super+Tab; defaults are Super+Tab and Super+grave, tune with a recent-windows section
 
 // TODO (unimplemented):
 // fill empty space after shrinking/closing columns: https://github.com/niri-wm/niri/pull/4400
 // toggle overview by tapping Super alone: https://github.com/niri-wm/niri/pull/3621 (builds on #2456)
+// partial zoom-out for context while moving windows: https://github.com/niri-wm/niri/pull/3194 (zoom presets and overview-zoom-in/out actions)
+// animate workspace moves and dis/appearance in the overview: https://github.com/niri-wm/niri/issues/1469 (open issue, no PR; every structural workspace action clears workspace-switch in src/layout/monitor.rs)
+// window names under windows in the overview: no upstream issue or PR; the recent-windows switcher already draws titles under previews (src/ui/mru.rs)
 
 // session startup and listeners
 spawn-sh-at-startup "exec \"${HOME}/.config/niri/scripts/startup.sh\""
@@ -71,6 +77,7 @@ animations {
 // window rules
 window-rule {
     match app-id="^firefox$"
+    match app-id="^code$"
     default-column-width { proportion 1.0; }
 }
 window-rule {
@@ -99,7 +106,7 @@ binds {
     Super+C   { focus-workspace 9; }
     // index 255 selects the bottom empty workspace
     Super+V   { focus-workspace 255; }
-    Super+Tab { focus-workspace-previous; }
+    Super+F   { focus-workspace-previous; }
 
     // send windows to workspaces
     Super+Ctrl+Q { move-window-to-workspace 1 focus=false; }
@@ -125,15 +132,13 @@ binds {
 
     // focus and move workspaces
     Super+M           { focus-monitor-left; }
+    Super+Comma       { focus-workspace-down; }
+    Super+Period      { focus-workspace-up; }
     Super+Slash       { focus-monitor-right; }
     Super+Ctrl+M      { move-workspace-to-monitor-left; }
     Super+Ctrl+Comma  { move-workspace-down; }
     Super+Ctrl+Period { move-workspace-up; }
     Super+Ctrl+Slash  { move-workspace-to-monitor-right; }
-
-    // column grouping
-    Super+Comma  repeat=false { consume-or-expel-window-left; }
-    Super+Period repeat=false { consume-or-expel-window-right; }
 
     // change window and column sizing
     Super+U      { set-column-width "50%"; }
@@ -146,20 +151,19 @@ binds {
     Super+Ctrl+P { set-column-width "+12.5%"; }
 
     // border keys
-    Super+BackSpace   repeat=false { spawn "swaylock"; }
-    Super+Return      repeat=false { toggle-overview; }
-    Super+Ctrl+Return repeat=false { spawn-sh "exec \"${HOME}/.config/niri/scripts/workspaces.py\" rename"; }
-    Super+Apostrophe  repeat=false { close-window; }
-    Super+Space       repeat=false { fullscreen-window; }
-    Super+Escape      repeat=false { spawn "fuzzel"; }
+    Super+BackSpace      repeat=false { spawn "swaylock"; }
+    Super+Ctrl+BackSpace repeat=false { close-window; }
+    Super+Space          repeat=false { toggle-overview; }
+    Super+Return         repeat=false { spawn-sh "exec \"${HOME}/.config/niri/scripts/workspaces.py\" rename"; }
+    Super+Escape         repeat=false { spawn "fuzzel"; }
 
     // launch applications
     Super+Y      repeat=false { spawn "spotify-launcher"; }
-    Super+G      repeat=false { spawn "ghostty"; }
-    Super+Ctrl+G repeat=false { spawn "ghostty" "+new-window" "-e" "claude"; }
-    Super+H      repeat=false { spawn "firefox" "--new-window"; }
-    Super+Ctrl+H repeat=false { spawn "firefox" "--new-window" "--private-window"; }
-    Super+B      repeat=false { spawn "thunar"; }
+    Super+G      repeat=false { spawn "firefox" "--new-window"; }
+    Super+Ctrl+G repeat=false { spawn "firefox" "--new-window" "--private-window"; }
+    Super+B      repeat=false { spawn "ghostty"; }
+    Super+Ctrl+B repeat=false { spawn "ghostty" "+new-window" "-e" "bash" "-c" "cd ~/.hosts/${HOSTNAME} && exec claude"; }
+    Super+H      repeat=false { spawn "thunar"; }
     Super+N      repeat=false { spawn "code" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
     Super+Ctrl+N repeat=false { spawn "code" "--new-window" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
 
