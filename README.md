@@ -24,18 +24,18 @@ bootstrap   # see --help for more options
 
 ## Version control
 
-A `home` alias is provided to interact with the bare repository:
+The `m` alias is provided to interact with the bare repository:
 
 ```bash
-alias home='git --git-dir=$HOME/.home.git --work-tree=$HOME'
+alias m='git --git-dir=$HOME/.machines.git --work-tree=$HOME'
 ```
 
 Use it like a `git` command:
 
 ```bash
-home add ~/.bashrc
-home commit -m 'update bashrc'
-home push
+m add ~/.bashrc
+m commit -m 'update bashrc'
+m push
 ```
 
 ## Conventions
