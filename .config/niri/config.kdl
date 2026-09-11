@@ -1,7 +1,6 @@
 // niri 26.04
 
 // TODO:
-// workspace naming and automatic cleanup when empty
 // Waybar failed-unit diagnostics and click action
 // hibernation for preserving the session across shutdown
 
@@ -12,6 +11,7 @@
 // session startup and listeners
 spawn-sh-at-startup "exec \"${HOME}/.config/niri/scripts/startup.sh\""
 spawn-sh-at-startup "exec \"${HOME}/.config/niri/scripts/bitwarden-popups.py\""
+spawn-sh-at-startup "exec \"${HOME}/.config/niri/scripts/workspaces.py\" watch"
 
 // screenshots
 screenshot-path "~/pics/screenshots/suzuki/%m-%d-%y_%H-%M-%S.png"
@@ -146,11 +146,12 @@ binds {
     Super+Ctrl+P { set-column-width "+12.5%"; }
 
     // border keys
-    Super+BackSpace  repeat=false { spawn "swaylock"; }
-    Super+Return     repeat=false { toggle-overview; }
-    Super+Apostrophe repeat=false { close-window; }
-    Super+Space      repeat=false { fullscreen-window; }
-    Super+Escape     repeat=false { spawn "fuzzel"; }
+    Super+BackSpace   repeat=false { spawn "swaylock"; }
+    Super+Return      repeat=false { toggle-overview; }
+    Super+Ctrl+Return repeat=false { spawn-sh "exec \"${HOME}/.config/niri/scripts/workspaces.py\" rename"; }
+    Super+Apostrophe  repeat=false { close-window; }
+    Super+Space       repeat=false { fullscreen-window; }
+    Super+Escape      repeat=false { spawn "fuzzel"; }
 
     // launch applications
     Super+Y      repeat=false { spawn "spotify-launcher"; }

@@ -17,7 +17,7 @@
         "systemd-failed-units"
     ],
     "modules-center": [
-        "niri/workspaces"
+        "custom/workspace"
     ],
     "modules-right": [
         "backlight",
@@ -134,9 +134,13 @@
         "tooltip": false
     },
 
-    "niri/workspaces": {
-        "current-only": true,
-        "disable-markup": true
+    "custom/workspace": {
+        "return-type": "json",
+        "exec": "~/.config/niri/scripts/workspaces.py label",
+        "exec-on-event": false,
+        "escape": true,
+        "tooltip": false,
+        "on-click": "\"${HOME}/.config/niri/scripts/workspaces.py\" rename"
     },
 
     "group/clock-group": {

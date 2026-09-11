@@ -26,7 +26,7 @@ window#waybar {
 #cpu-group,
 #custom-claude,
 #systemd-failed-units,
-#workspaces,
+#custom-workspace,
 #pulseaudio,
 #backlight,
 #bluetooth-group,
@@ -47,7 +47,7 @@ window#waybar {
 #custom-weather,
 #custom-claude,
 #systemd-failed-units,
-#workspaces button,
+#custom-workspace,
 #pulseaudio,
 #backlight,
 #custom-bluetooth,
@@ -96,14 +96,8 @@ window#waybar {
     padding: 2px 11px 2px 7px; /* center arch glyph (right - left = 4) */
 }
 
-/* workspace button reset and label */
-#workspaces button {
-    min-width: 0;
-    border: none;
-    box-shadow: none;
-}
-
-#workspaces button label {
+/* workspace label */
+#custom-workspace {
     font-weight: bold;
 }
 
@@ -115,7 +109,7 @@ window#waybar {
 
 #custom-arch-icon.updates-available,
 #custom-arch-updates.updates-available,
-#workspaces button.urgent {
+#custom-workspace.urgent {
     color: #5b9bf8;
 }
 

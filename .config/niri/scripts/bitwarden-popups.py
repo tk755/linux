@@ -3,44 +3,14 @@
 # adapted from: https://github.com/niri-wm/niri/discussions/1599
 
 import json
-import os
-import socket
 import sys
-from collections.abc import Iterator
-from contextlib import contextmanager
 from typing import Any, TextIO
+
+from niri_ipc import connect, reply, request, send
 
 WIDTH = 450
 HEIGHT = 600
 GAP = 8
-
-
-@contextmanager
-def connect() -> Iterator[socket.socket]:
-    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as connection:
-        connection.settimeout(5)
-        connection.connect(os.environ["NIRI_SOCKET"])
-        yield connection
-
-
-def send(connection: socket.socket, message: str | dict[str, Any]) -> None:
-    connection.sendall((json.dumps(message) + "\n").encode())
-
-
-def reply(stream: TextIO) -> Any:
-    line = stream.readline()
-    if not line:
-        raise ConnectionError("Niri closed the IPC connection")
-    result = json.loads(line)
-    if "Err" in result:
-        raise RuntimeError(result["Err"])
-    return result["Ok"]
-
-
-def request(message: str | dict[str, Any]) -> Any:
-    with connect() as connection, connection.makefile("r", encoding="utf-8") as stream:
-        send(connection, message)
-        return reply(stream)
 
 
 def configure_popup(window: dict[str, Any]) -> None:
