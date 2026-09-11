@@ -38,6 +38,13 @@
     "frontend-design@claude-plugins-official": true
   },
   "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "xhigh"
+    }
+  },
   "plansDirectory": "./.claude/plans",
-  "tui": "fullscreen"
+  "tui": "fullscreen",
+  "agentPushNotifEnabled": true,
+  "awaySummaryEnabled": false
 }
