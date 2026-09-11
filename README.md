@@ -1,6 +1,6 @@
-# Linux
+# Machines
 
-This repository defines my Linux environment across machines.
+This repository defines the unified Linux environment across my machines.
 
 ## Bootstrap
 
@@ -11,7 +11,7 @@ This repository defines my Linux environment across machines.
 Run the `bootstrap` script directly from GitHub:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/tk755/linux/main/.bin/bootstrap | bash
+curl -fsSL https://raw.githubusercontent.com/tk755/machines/main/.bin/bootstrap | bash
 ```
 
 ### Existing machine

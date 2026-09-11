@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-REPO_URL_HTTPS="https://github.com/tk755/linux.git"
-REPO_LOCAL_DIR="$HOME/.home.git"
+REPO_URL_HTTPS="https://github.com/tk755/machines.git"
+REPO_LOCAL_DIR="$HOME/.machines.git"
 BACKUP_DIR="$HOME/.bootstrap-backup"
 
 # paths to exclude in headless install

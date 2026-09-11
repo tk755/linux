@@ -37,8 +37,8 @@ Boot the Arch ISO. Then run:
 ```bash
 iwctl station wlan0 connect "YourNetworkName"
 pacman -Sy git
-git clone https://github.com/tk755/linux
-linux/.hosts/suzuki/install
+git clone https://github.com/tk755/machines
+machines/.hosts/suzuki/install
 ```
 
 ### 2. Post-install (interactive)
